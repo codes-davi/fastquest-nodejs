@@ -1,0 +1,12 @@
+.selector-for-some-widget {
+    box-sizing: content-box;
+  }
+h3{
+  color: rgb(112, 112, 112);
+}
+body{
+  background-color: #eceff1;
+}
+#ask-form{
+  margin-top: 5vh;
+}

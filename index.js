@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connect = require('./dbconfig/database');
+const QuestionModel = require('./dbconfig/Question');
 const app = express();
 
 //connect to database
@@ -20,7 +21,12 @@ app.use(bodyParser.json());
 
 //routes
 app.get('/', (req,res)=>{
-    res.render('index');
+
+    QuestionModel.findAll({raw: true, order:[['id','DESC']]}).then((questions) => {
+        res.render('index', {
+            questions: questions
+        });
+    });
 });
 
 app.get('/ask', (req,res)=>{
@@ -28,9 +34,18 @@ app.get('/ask', (req,res)=>{
 });
 
 app.post('/save', (req,res)=>{
-    let tittle = req.body.tittle;
-    let question = req.body.question;
-    res.send(`${tittle} ${question}`);
+    let title = req.body.title;
+    let description = req.body.description;
+    
+    //insert into questions
+    QuestionModel.create({
+        title: title,
+        description: description
+    }).then(()=>{
+        res.redirect("/");
+    }).catch((err)=>{
+        console.log(err);
+    });
 });
 
 app.listen(3000,()=>{

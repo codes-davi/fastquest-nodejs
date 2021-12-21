@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const connect = require('./dbconfig/database');
 const QuestionModel = require('./dbconfig/Question');
-const Question = require('./dbconfig/Question');
+const Answer = require('./dbconfig/Answer');
 const app = express();
 
 //connect to database
@@ -57,15 +57,35 @@ app.get('/question/:id', (req,res)=>{
         }
     }).then(question=>{
         if(question != undefined){
-            res.render('question', {
-                question: question
-            });
+            Answer.findAll({
+                where: {
+                    questionId: question.id
+                },order:[['id', 'DESC']]
+            }).then(answers=>{
+                res.render('question', {
+                    question: question,
+                    answers: answers
+                });
+            })
         }else{
-            res.send("not found");
+            res.send("/");
         }
     }).catch(err=>{
         throw new Error("Query not executed");
     })
+});
+
+app.post('/answer/:questionId', (req,res)=>{
+    let body = req.body.body;
+    let questionId = req.params.questionId;
+    Answer.create({
+        body:body, 
+        questionId:questionId
+    }).then(()=>{
+        res.redirect(`/question/${questionId}`);
+    }).catch(err=>{
+        console.log(err);
+    });
 });
 
 app.listen(3000,()=>{

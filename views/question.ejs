@@ -8,7 +8,7 @@
     <title>FastQuest</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/index.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
 
 
 </head>
@@ -24,10 +24,23 @@
             <div class="card-body text-center">
                 <p><%= question.description%></p>
             </div>
-            <div class="card-footer">
-                
-            </div>
         </div>
+        <form method="post" action="/answer/<%= question.id %>">
+            <h3 class="text-center">Answer now</h3>
+            <textarea name="body" placeholder="Type your answer" class="form-control"></textarea>
+            <br>
+            <button type="submit" class="btn btn-primary form-control" id="ans-btn">Submit</button>
+        </form>
+        <br>
+        <% answers.forEach(answer=>{%>
+
+            <div class="card">
+                <div class="carrd-body">
+                    <p><%=answer.body%></p>
+                </div>
+            </div>
+            <br>
+        <%})%>
     </div>
 
 

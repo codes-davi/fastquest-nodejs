@@ -1,5 +1,5 @@
 # fastquest-nodejs
-Simple FAQ portal built in NodeJS.
+Answers and Questions portal built in NodeJS.
 Main frameworks and libs used in this project:
   Express,
   Sequelize,
